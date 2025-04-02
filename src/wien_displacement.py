@@ -96,10 +96,11 @@ def calculate_temperature(wavelength, x0=5.0):
     返回:
     float: 黑体温度，单位：开尔文
     """
-    # 从 solve_wien_constant 返回的元组中提取 b
-    _, b = solve_wien_constant(x0)
     # TODO: 计算温度
+    _, b = solve_wien_constant(x0)
+
     T = b / wavelength
+    
     return T
 
 if __name__ == "__main__":
