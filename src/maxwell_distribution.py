@@ -17,7 +17,8 @@ def maxwell_distribution(v, vp):
     分布函数f(v)的值
     """
     # 在此实现麦克斯韦分布函数
-    pass
+    return (4 / np.sqrt(np.pi)) * (v**2 / vp**3) * np.exp(-v**2 / vp**2)
+
 
 def percentage_0_to_vp(vp):
     """
@@ -30,7 +31,8 @@ def percentage_0_to_vp(vp):
     百分比值
     """
     # 在此实现0到vp的积分计算
-    pass
+    result, _ = quad(maxwell_distribution, 0, vp, args=(vp,))
+    return result * 100  # 转换为百分比
 
 def percentage_0_to_3_3vp(vp):
     """
@@ -43,7 +45,8 @@ def percentage_0_to_3_3vp(vp):
     百分比值
     """
     # 在此实现0到3.3vp的积分计算
-    pass
+    result, _ = quad(maxwell_distribution, 0,3.3*vp, args=(vp,))
+    return result * 100  # 转换为百分比
 
 def percentage_3e4_to_3e8(vp):
     """
@@ -56,7 +59,8 @@ def percentage_3e4_to_3e8(vp):
     百分比值
     """
     # 在此实现3×10^4到3×10^8的积分计算
-    pass
+    result, _ = quad(maxwell_distribution, 3e4,3e8, args=(vp,))
+    return result * 100  # 转换为百分比
 
 def trapezoidal_rule(f, a, b, n):
     """
@@ -72,7 +76,15 @@ def trapezoidal_rule(f, a, b, n):
     积分近似值
     """
     # 在此实现梯形积分法则
-    pass
+    delta_x = (b - a) / n
+    total = f(a) + f(b)
+    for i in range(1, n):
+        total += 2 * f(a + i * delta_x)
+    return (delta_x / 2) * total
+
+def percentage_0_to_vp_trap(vp, n):
+    integral = trapezoidal_rule(lambda v: maxwell_distribution(v, vp), 0, vp, n)
+    return integral * 100
 
 def compare_methods(task_name, quad_func, trap_func, vp, n_values=[10, 100, 1000]):
     """比较quad和梯形积分法的结果和性能"""

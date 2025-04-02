@@ -22,6 +22,13 @@ def generate_grid():
     tuple: 包含网格坐标X、Y以及径向距离r的元组
     """
     # 在此生成x和y方向的坐标网格
+    grid_size = 0.001  # 网格范围（m）
+    resolution = 1000  # 分辨率
+    x = np.linspace(-grid_size, grid_size, resolution)
+    y = np.linspace(-grid_size, grid_size, resolution) #生成等间距数值序列
+    X, Y = np.meshgrid(x, y) #生成网格坐标
+    r = np.sqrt(X**2 + Y**2)  # 计算径向距离
+    return X, Y, r
     pass
 
 def calculate_intensity(r, lambda_light, R_lens):
@@ -36,7 +43,11 @@ def calculate_intensity(r, lambda_light, R_lens):
     返回:
     np.ndarray: 干涉强度分布数组
     """
-    # 在此实现光强计算
+    # 计算薄膜厚度 d
+    d = R_lens - np.sqrt(R_lens**2 - r**2)
+    # 计算光强分布
+    intensity = 4 * np.sin((2 * np.pi * d/ lambda_light) )**2
+    return intensity
     pass
 
 def plot_newton_rings(intensity):
@@ -47,6 +58,13 @@ def plot_newton_rings(intensity):
     intensity (np.ndarray): 干涉强度分布数组
     """
     # 在此实现图像绘制
+    plt.figure(figsize=(10, 10))
+    plt.imshow(intensity, cmap='gray', extent=(-0.001, 0.001, -0.001, 0.001),vmin=0, vmax=1)
+    plt.colorbar(label="Intensity")
+    plt.title("Newton's Rings")
+    plt.xlabel("x (m)")
+    plt.ylabel("y (m)")
+    plt.show()
     pass
 
 if __name__ == "__main__":
