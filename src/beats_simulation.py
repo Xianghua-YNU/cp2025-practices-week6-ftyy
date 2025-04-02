@@ -21,7 +21,7 @@ def simulate_beat_frequency(f1=440, f2=444, A1=1.0, A2=1.0, t_start=0, t_end=1, 
     superposed_wave = wave1 + wave2
 
     # 计算拍频
-    beat_frequency = abs(f1 - f2) / 2
+    beat_frequency = np.abs(f1 - f2)
 
     # 绘制图像
     if show_plot:
