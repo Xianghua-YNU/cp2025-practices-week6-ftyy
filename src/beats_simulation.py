@@ -66,30 +66,35 @@ def parameter_sensitivity_analysis():
     1. 分析不同频率差对拍频的影响
     2. 分析不同振幅比例对拍频的影响
     """
-    # 频率差分析
-    freq_differences = np.linspace(0.1, 10, 100)
-    beat_frequencies = freq_differences / 2
-    plt.figure(figsize=(12, 6))
-    plt.subplot(2, 1, 1)
-    plt.plot(freq_differences, beat_frequencies, label='Beat Frequency', color='blue')
-    plt.title('Frequency Difference Analysis')
-    plt.xlabel('Frequency Difference (Hz)')
-    plt.ylabel('Beat Frequency (Hz)')
-    plt.grid()
-    plt.legend()
-
-    # 振幅比例分析
-    amplitude_ratios = np.linspace(0.1, 2, 100)
-    plt.subplot(2, 1, 2)
-    plt.plot(amplitude_ratios, amplitude_ratios, label='Amplitude Ratio Effect', color='orange')
-    plt.title('Amplitude Ratio Analysis')
-    plt.xlabel('Amplitude Ratio')
-    plt.ylabel('Effect on Beat')
-    plt.grid()
-    plt.legend()
+    base_freq = 440
+    freq_diffs = [1, 4, 6, 8]
     
+    plt.figure(1,figsize=(12, 8))
+    for i, diff in enumerate(freq_diffs):
+        t, wave, _ = simulate_beat_frequency(f1=base_freq, f2=base_freq+diff,show_plot=False)
+        plt.subplot(2, 2, i+1)
+        plt.plot(t, wave)
+        plt.title(f'Frequency diff = {diff} Hz')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Amplitude')
     plt.tight_layout()
     plt.show()
+
+
+    # 不同振幅比例的影响
+    amplitude_ratios = [0.5, 2.0, 3.0, 4.0]
+    plt.figure(2,figsize=(12, 8))
+    for i, ratio in enumerate(amplitude_ratios):
+        t, wave, _ = simulate_beat_frequency(A2=ratio,show_plot=False)
+        plt.subplot(2, 2, i+1)
+        plt.plot(t, wave)
+        plt.title(f'Amplitude ratio = {ratio}')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Amplitude')
+    plt.tight_layout()
+    plt.show()
+
+
 
 if __name__ == "__main__":
     # 示例调用
